@@ -15,83 +15,86 @@ import {
   Clock,
   CreditCard
 } from "lucide-react";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const Index = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const features = [
     {
       icon: <Zap className="w-6 h-6" />,
-      title: "Cepat & Mudah",
-      description: "Selesaikan tugas dalam hitungan menit dan dapatkan pembayaran instan ke akun Anda"
+      title: t('feature1Title'),
+      description: t('feature1Desc')
     },
     {
       icon: <Shield className="w-6 h-6" />,
-      title: "100% Aman",
-      description: "Platform terenkripsi dengan sistem keamanan tingkat tinggi untuk melindungi data Anda"
+      title: t('feature2Title'),
+      description: t('feature2Desc')
     },
     {
       icon: <Users className="w-6 h-6" />,
-      title: "Komunitas Global",
-      description: "Bergabung dengan 100.000+ pengguna aktif dari seluruh dunia"
+      title: t('feature3Title'),
+      description: t('feature3Desc')
     },
     {
       icon: <CreditCard className="w-6 h-6" />,
-      title: "Pembayaran Fleksibel",
-      description: "Tarik saldo ke PayPal, DANA, GoPay, OVO, atau transfer bank"
+      title: t('feature4Title'),
+      description: t('feature4Desc')
     },
     {
       icon: <Clock className="w-6 h-6" />,
-      title: "Kapan Saja",
-      description: "Kerjakan tugas 24/7 sesuai waktu luang Anda tanpa batasan"
+      title: t('feature5Title'),
+      description: t('feature5Desc')
     },
     {
       icon: <Gift className="w-6 h-6" />,
-      title: "Bonus Harian",
-      description: "Dapatkan bonus tambahan setiap hari dengan menyelesaikan target tugas"
+      title: t('feature6Title'),
+      description: t('feature6Desc')
     }
   ];
 
   const steps = [
     {
       number: "01",
-      title: "Daftar Gratis",
-      description: "Buat akun dalam 30 detik tanpa biaya apapun"
+      title: t('step1Title'),
+      description: t('step1Desc')
     },
     {
       number: "02",
-      title: "Pilih Tugas",
-      description: "Pilih dari ratusan tugas yang tersedia sesuai minat Anda"
+      title: t('step2Title'),
+      description: t('step2Desc')
     },
     {
       number: "03",
-      title: "Kerjakan",
-      description: "Selesaikan tugas sederhana seperti unduh aplikasi atau survey"
+      title: t('step3Title'),
+      description: t('step3Desc')
     },
     {
       number: "04",
-      title: "Tarik Saldo",
-      description: "Tarik penghasilan Anda mulai dari $10 ke berbagai metode"
+      title: t('step4Title'),
+      description: t('step4Desc')
     }
   ];
 
   const testimonials = [
     {
       name: "Andi Pratama",
-      role: "Mahasiswa",
-      content: "Sangat membantu untuk uang jajan tambahan. Sudah dapat $50 dalam sebulan!",
+      role: t('student'),
+      content: t('testimonial1'),
       rating: 5
     },
     {
       name: "Siti Rahayu",
-      role: "Ibu Rumah Tangga",
-      content: "Bisa dikerjakan sambil mengurus rumah. Pembayaran selalu tepat waktu.",
+      role: t('housewife'),
+      content: t('testimonial2'),
       rating: 5
     },
     {
       name: "Budi Santoso",
-      role: "Freelancer",
-      content: "Platform terpercaya dengan tugas yang mudah. Recommended!",
+      role: t('freelancer'),
+      content: t('testimonial3'),
       rating: 5
     }
   ];
@@ -117,14 +120,15 @@ const Index = () => {
                 CashFlow Pro
               </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <LanguageSwitcher />
               <Button variant="ghost" asChild className="hidden sm:flex">
-                <Link to="/login">Masuk</Link>
+                <Link to="/login">{t('login')}</Link>
               </Button>
               <Button asChild className="gradient-primary gradient-glow hover:opacity-90 transition-opacity">
                 <Link to="/register">
-                  <span className="hidden sm:inline">Daftar Gratis</span>
-                  <span className="sm:hidden">Daftar</span>
+                  <span className="hidden sm:inline">{t('registerFree')}</span>
+                  <span className="sm:hidden">{t('register')}</span>
                 </Link>
               </Button>
             </div>
@@ -138,18 +142,17 @@ const Index = () => {
           <div className="animate-fade-up">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary text-sm font-medium mb-8">
               <CheckCircle className="w-4 h-4" />
-              <span>Sudah dipercaya 100.000+ pengguna aktif</span>
+              <span>{t('trustedUsers')}</span>
             </div>
           </div>
           
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground leading-tight mb-6 animate-fade-up-delay-1">
-            Hasilkan Uang dari{" "}
-            <span className="text-gradient">Smartphone</span>{" "}
-            Anda
+            {t('heroTitle1')}{" "}
+            <span className="text-gradient">{t('heroTitle2')}</span>
           </h1>
           
           <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-up-delay-2">
-            Kerjakan tugas sederhana, unduh aplikasi, dan selesaikan survey untuk mendapatkan penghasilan tambahan setiap hari. Mulai gratis sekarang!
+            {t('heroDescription')}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up-delay-3">
@@ -158,7 +161,7 @@ const Index = () => {
               onClick={() => navigate("/register")}
               className="w-full sm:w-auto gradient-primary gradient-glow hover:opacity-90 transition-all px-8 py-6 text-lg"
             >
-              Mulai Menghasilkan
+              {t('startEarning')}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button 
@@ -167,7 +170,7 @@ const Index = () => {
               onClick={() => navigate("/login")}
               className="w-full sm:w-auto border-border hover:bg-accent hover:border-primary/30 px-8 py-6 text-lg"
             >
-              Sudah Punya Akun?
+              {t('haveAccount')}
             </Button>
           </div>
 
@@ -175,15 +178,15 @@ const Index = () => {
           <div className="grid grid-cols-3 gap-4 mt-16 max-w-lg mx-auto">
             <div className="text-center">
               <p className="text-2xl sm:text-3xl font-bold text-gradient">$2.5M+</p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Dibayarkan</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('paid')}</p>
             </div>
             <div className="text-center border-x border-border">
               <p className="text-2xl sm:text-3xl font-bold text-gradient">100K+</p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Pengguna</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('users')}</p>
             </div>
             <div className="text-center">
               <p className="text-2xl sm:text-3xl font-bold text-gradient">500+</p>
-              <p className="text-xs sm:text-sm text-muted-foreground">Tugas</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">{t('tasks')}</p>
             </div>
           </div>
         </div>
@@ -214,7 +217,7 @@ const Index = () => {
                     <div className="text-sm font-medium">Spotify</div>
                     <div className="text-xs text-muted-foreground">+$0.55</div>
                   </div>
-                  <Button size="sm" className="gradient-primary text-xs h-7">Kerjakan</Button>
+                  <Button size="sm" className="gradient-primary text-xs h-7">{t('doTask')}</Button>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-accent rounded-xl">
                   <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
@@ -224,10 +227,10 @@ const Index = () => {
                     <div className="text-sm font-medium">Amazon</div>
                     <div className="text-xs text-muted-foreground">+$0.30</div>
                   </div>
-                  <Button size="sm" className="gradient-primary text-xs h-7">Kerjakan</Button>
+                  <Button size="sm" className="gradient-primary text-xs h-7">{t('doTask')}</Button>
                 </div>
                 <div className="mt-4 p-4 bg-gradient-to-r from-primary/20 to-emerald-500/20 rounded-xl text-center border border-primary/20">
-                  <p className="text-xs text-muted-foreground">Total Saldo</p>
+                  <p className="text-xs text-muted-foreground">{t('totalBalance')}</p>
                   <p className="text-2xl font-bold text-gradient">$24.50</p>
                 </div>
               </div>
@@ -241,9 +244,9 @@ const Index = () => {
       {/* How It Works */}
       <section className="container mx-auto px-4 py-24 border-t border-border/50">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Cara Kerjanya</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t('howItWorks')}</h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Empat langkah mudah untuk mulai menghasilkan uang dari smartphone Anda
+            {t('howItWorksDesc')}
           </p>
         </div>
         
@@ -266,9 +269,9 @@ const Index = () => {
       {/* Features Section */}
       <section className="container mx-auto px-4 py-24">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Mengapa Memilih Kami?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t('whyChooseUs')}</h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Platform terpercaya dengan berbagai keunggulan untuk memaksimalkan penghasilan Anda
+            {t('whyChooseUsDesc')}
           </p>
         </div>
         
@@ -293,9 +296,9 @@ const Index = () => {
       {/* Testimonials */}
       <section className="container mx-auto px-4 py-24 border-t border-border/50">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Apa Kata Mereka?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t('testimonials')}</h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            Ribuan pengguna sudah merasakan manfaatnya
+            {t('testimonialsDesc')}
           </p>
         </div>
         
@@ -330,17 +333,17 @@ const Index = () => {
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLW9wYWNpdHk9IjAuMSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30" />
           <div className="relative z-10">
             <h2 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">
-              Siap Mulai Menghasilkan?
+              {t('readyToStart')}
             </h2>
             <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8">
-              Bergabung dengan ribuan pengguna lainnya dan mulai dapatkan penghasilan tambahan hari ini
+              {t('ctaDesc')}
             </p>
             <Button 
               size="lg"
               onClick={() => navigate("/register")}
               className="bg-background text-primary hover:bg-background/90 shadow-xl px-8 py-6 text-lg"
             >
-              Daftar Gratis Sekarang
+              {t('registerNow')}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
@@ -358,14 +361,14 @@ const Index = () => {
               <span className="text-xl font-bold text-gradient">CashFlow Pro</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <Link to="#" className="hover:text-primary transition-colors">Tentang Kami</Link>
-              <Link to="#" className="hover:text-primary transition-colors">FAQ</Link>
-              <Link to="#" className="hover:text-primary transition-colors">Kontak</Link>
-              <Link to="#" className="hover:text-primary transition-colors">Kebijakan Privasi</Link>
+              <Link to="#" className="hover:text-primary transition-colors">{t('aboutUs')}</Link>
+              <Link to="#" className="hover:text-primary transition-colors">{t('faq')}</Link>
+              <Link to="#" className="hover:text-primary transition-colors">{t('contact')}</Link>
+              <Link to="#" className="hover:text-primary transition-colors">{t('privacyPolicy')}</Link>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-            © 2024 CashFlow Pro. All rights reserved.
+            © 2024 CashFlow Pro. {t('allRights')}
           </div>
         </div>
       </footer>
