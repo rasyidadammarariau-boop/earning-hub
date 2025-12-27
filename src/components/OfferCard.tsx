@@ -14,12 +14,12 @@ interface OfferCardProps {
 const OfferCard = ({ offer }: OfferCardProps) => {
   const { user, completeOffer } = useAuth();
   const [isCompleting, setIsCompleting] = useState(false);
-  const isCompleted = user?.completedOffers.includes(offer.offerid);
+  const isCompleted = user?.completedOffers.some(o => o.offerId === offer.offerid);
 
   const handleComplete = () => {
     setIsCompleting(true);
     setTimeout(() => {
-      completeOffer(offer.offerid, parseFloat(offer.payout));
+      completeOffer(offer.offerid, offer.name_short, parseFloat(offer.payout));
       toast.success(`+$${offer.payout} berhasil ditambahkan ke saldo Anda!`);
       setIsCompleting(false);
     }, 1500);
