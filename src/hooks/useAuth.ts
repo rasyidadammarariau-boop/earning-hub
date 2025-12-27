@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AuthState, User } from '@/types';
+import { AuthState, User, CompletedOffer, Withdrawal } from '@/types';
 
 export const useAuth = create<AuthState>()(
   persist(
@@ -9,7 +9,6 @@ export const useAuth = create<AuthState>()(
       isAuthenticated: false,
       
       login: (email: string, password: string) => {
-        // Dummy login - accepts any email/password with basic validation
         if (email && password.length >= 6) {
           const existingUser = localStorage.getItem(`user_${email}`);
           if (existingUser) {
@@ -17,13 +16,13 @@ export const useAuth = create<AuthState>()(
             set({ user, isAuthenticated: true });
             return true;
           }
-          // Create new user on first login
           const newUser: User = {
             id: crypto.randomUUID(),
             email,
             name: email.split('@')[0],
             balance: 0,
             completedOffers: [],
+            withdrawals: [],
             createdAt: new Date(),
           };
           localStorage.setItem(`user_${email}`, JSON.stringify(newUser));
@@ -41,6 +40,7 @@ export const useAuth = create<AuthState>()(
             name,
             balance: 0,
             completedOffers: [],
+            withdrawals: [],
             createdAt: new Date(),
           };
           localStorage.setItem(`user_${email}`, JSON.stringify(newUser));
@@ -54,17 +54,55 @@ export const useAuth = create<AuthState>()(
         set({ user: null, isAuthenticated: false });
       },
       
-      completeOffer: (offerId: number, payout: number) => {
+      completeOffer: (offerId: number, offerName: string, payout: number) => {
         const { user } = get();
-        if (user && !user.completedOffers.includes(offerId)) {
+        if (user && !user.completedOffers.some(o => o.offerId === offerId)) {
+          const completedOffer: CompletedOffer = {
+            offerId,
+            offerName,
+            payout,
+            completedAt: new Date(),
+          };
           const updatedUser = {
             ...user,
             balance: user.balance + payout,
-            completedOffers: [...user.completedOffers, offerId],
+            completedOffers: [...user.completedOffers, completedOffer],
           };
           localStorage.setItem(`user_${user.email}`, JSON.stringify(updatedUser));
           set({ user: updatedUser });
         }
+      },
+
+      updateProfile: (data: Partial<User>) => {
+        const { user } = get();
+        if (user) {
+          const updatedUser = { ...user, ...data };
+          localStorage.setItem(`user_${user.email}`, JSON.stringify(updatedUser));
+          set({ user: updatedUser });
+        }
+      },
+
+      requestWithdrawal: (amount: number, method: string, accountInfo: string) => {
+        const { user } = get();
+        if (user && amount >= 10 && amount <= user.balance) {
+          const withdrawal: Withdrawal = {
+            id: crypto.randomUUID(),
+            amount,
+            method,
+            accountInfo,
+            status: 'pending',
+            createdAt: new Date(),
+          };
+          const updatedUser = {
+            ...user,
+            balance: user.balance - amount,
+            withdrawals: [...user.withdrawals, withdrawal],
+          };
+          localStorage.setItem(`user_${user.email}`, JSON.stringify(updatedUser));
+          set({ user: updatedUser });
+          return true;
+        }
+        return false;
       },
     }),
     {

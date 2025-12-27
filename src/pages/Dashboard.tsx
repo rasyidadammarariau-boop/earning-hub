@@ -1,35 +1,23 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { dummyOffers } from "@/data/offers";
-import DashboardHeader from "@/components/DashboardHeader";
+import DashboardLayout from "@/components/DashboardLayout";
 import OfferCard from "@/components/OfferCard";
 import StatsCard from "@/components/StatsCard";
 import { Wallet, Target, TrendingUp, Gift } from "lucide-react";
 
 const Dashboard = () => {
-  const { user, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, navigate]);
+  if (!user) return null;
 
-  if (!isAuthenticated || !user) {
-    return null;
-  }
-
-  const completedCount = user.completedOffers.length;
-  const availableOffers = dummyOffers.filter(o => !user.completedOffers.includes(o.offerid));
+  const completedIds = user.completedOffers.map(o => o.offerId);
+  const completedCount = completedIds.length;
+  const availableOffers = dummyOffers.filter(o => !completedIds.includes(o.offerid));
   const potentialEarnings = availableOffers.reduce((sum, o) => sum + parseFloat(o.payout), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <DashboardHeader />
-      
-      <main className="container px-4 py-8">
+    <DashboardLayout>
+      <div className="container px-4 py-8">
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">
@@ -84,8 +72,8 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 };
 
